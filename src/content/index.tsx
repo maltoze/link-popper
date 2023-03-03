@@ -8,6 +8,8 @@ const containerId = 'linkpopper-container';
 
 const open = signal(false);
 const url = signal<string | null>(null);
+const title = signal<string | null>(null);
+const loading = signal(false);
 
 const currentPageUrl = `${location.origin}${location.pathname}`;
 
@@ -18,6 +20,8 @@ async function handleAnchorClick(evt: MouseEvent) {
     const target = evt.currentTarget;
     open.value = true;
     url.value = target.href;
+    title.value = target.text;
+    loading.value = true;
   }
 }
 
@@ -45,15 +49,35 @@ function renderApp() {
   document.body.appendChild(container);
 
   render(
-    <App open={open} url={url} />,
+    <App open={open} url={url} title={title} loading={loading} />,
     document.querySelector(`#${containerId}`) ?? document.body
   );
 }
 
-const anchors = document.querySelectorAll('a');
+const observerConfig = {
+  childList: true,
+  subtree: true,
+};
 
 async function main() {
   renderApp();
+
+  let anchors = document.querySelectorAll('a');
+  const observer = new MutationObserver(function (mutations) {
+    // debounce
+    anchors.forEach(async (anchor) => {
+      if (shouldHandleClickEvent(anchor.href)) {
+        anchor.removeEventListener('click', handleAnchorClick);
+      }
+    });
+
+    anchors = document.querySelectorAll('a');
+    anchors.forEach(async (anchor) => {
+      if (shouldHandleClickEvent(anchor.href)) {
+        anchor.addEventListener('click', handleAnchorClick);
+      }
+    });
+  });
 
   const data = await browser.storage.sync.get(S_PAGES_KEY);
   const peekPages = data[S_PAGES_KEY] as string[];
@@ -63,6 +87,8 @@ async function main() {
         anchor.addEventListener('click', handleAnchorClick);
       }
     });
+
+    observer.observe(document.body, observerConfig);
   }
 
   browser.storage.onChanged.addListener(({ peekPages }) => {
@@ -72,6 +98,7 @@ async function main() {
       oldValues.includes(currentPageUrl) &&
       !newValues.includes(currentPageUrl)
     ) {
+      observer.disconnect();
       anchors.forEach(async (anchor) => {
         if (shouldHandleClickEvent(anchor.href)) {
           anchor.removeEventListener('click', handleAnchorClick);
@@ -81,6 +108,7 @@ async function main() {
       !oldValues.includes(currentPageUrl) &&
       newValues.includes(currentPageUrl)
     ) {
+      observer.observe(document.body, observerConfig);
       anchors.forEach(async (anchor) => {
         if (shouldHandleClickEvent(anchor.href)) {
           anchor.addEventListener('click', handleAnchorClick);

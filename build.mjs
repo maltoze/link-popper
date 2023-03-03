@@ -12,7 +12,7 @@ async function deleteOldDir() {
 }
 
 async function runEsbuild() {
-  await esbuild.build({
+  return await esbuild.build({
     entryPoints: ['src/content/index.tsx', 'src/background/index.ts'],
     bundle: true,
     outdir: outdir,
@@ -28,6 +28,7 @@ async function runEsbuild() {
     loader: {
       '.png': 'dataurl',
     },
+    metafile: true,
     plugins: [
       postcssPlugin({
         postcss: {
@@ -59,13 +60,14 @@ async function copyFiles(entryPoints, targetDir) {
 
 async function build() {
   await deleteOldDir();
-  await runEsbuild();
+  const result = await runEsbuild();
 
   const commonFiles = [
     { src: 'build/content/index.js', dst: 'content.js' },
     { src: 'build/content/index.css', dst: 'content.css' },
     { src: 'build/background/index.js', dst: 'background.js' },
     { src: 'src/logo.png', dst: 'logo.png' },
+    { src: 'src/logo-gray.png', dst: 'logo-gray.png' },
   ];
 
   // chromium
@@ -76,6 +78,10 @@ async function build() {
 
   await zipFolder(`./${outdir}/chromium`);
 
+  if (result.metafile) {
+    // use https://bundle-buddy.com/esbuild to analyses
+    await fs.writeFile(`./${outdir}/metafile.json`, JSON.stringify(result.metafile));
+  }
   console.log('Build success.');
 }
 

@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Link Peek",
+  "name": "Link Popper",
   "version": "1.0",
   "description": "A Chrome extension that allows you to preview links.",
   "icons": {
@@ -16,9 +16,7 @@
       "css": ["content.css"]
     }
   ],
-  "action": {
-    "default_title": "Link Peek"
-  },
+  "action": {},
   "background": {
     "service_worker": "background.js"
   },
