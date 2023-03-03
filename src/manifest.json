@@ -16,7 +16,9 @@
       "css": ["content.css"]
     }
   ],
-  "action": {},
+  "action": {
+    "default_icon": "logo-gray.png"
+  },
   "background": {
     "service_worker": "background.js"
   },

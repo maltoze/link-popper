@@ -22,11 +22,11 @@ browser.action.onClicked.addListener(async (tab) => {
       peekPages.splice(pIndex, 1);
       storageCache[S_PAGES_KEY] = peekPages;
       await browser.storage.sync.set(storageCache);
-      browser.action.setIcon({ path: 'logo-gray.png' });
+      browser.action.setIcon({ tabId: tab.id, path: 'logo-gray.png' });
     } else {
       storageCache[S_PAGES_KEY] = [...(peekPages ?? []), pageUrl];
       await browser.storage.sync.set(storageCache);
-      browser.action.setIcon({ path: 'logo.png' });
+      browser.action.setIcon({ tabId: tab.id, path: 'logo.png' });
     }
   }
 });
@@ -36,9 +36,9 @@ browser.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
     const pages = storageCache[S_PAGES_KEY] as string[];
     const url = new URL(changeInfo.url);
     if (pages.includes(`${url.origin}${url.pathname}`)) {
-      browser.action.setIcon({ path: 'logo.png' });
+      browser.action.setIcon({ tabId, path: 'logo.png' });
     } else {
-      browser.action.setIcon({ path: 'logo-gray.png' });
+      browser.action.setIcon({ tabId, path: 'logo-gray.png' });
     }
   }
 });
