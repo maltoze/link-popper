@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 import { signal } from '@preact/signals';
 import { render } from 'preact';
 import App from './App';
-import { S_PAGES_KEY } from '../constants';
+import { S_PAGES_KEY, URL_CHANGED } from '../constants';
 
 const containerId = 'linkpopper-container';
 
@@ -11,19 +11,7 @@ const url = signal<string | null>(null);
 const title = signal<string | null>(null);
 const loading = signal(false);
 
-const currentPageUrl = `${location.origin}${location.pathname}`;
-
-async function handleAnchorClick(evt: MouseEvent) {
-  evt.preventDefault();
-
-  if (evt.currentTarget instanceof HTMLAnchorElement) {
-    const target = evt.currentTarget;
-    open.value = true;
-    url.value = target.href;
-    title.value = target.text;
-    loading.value = true;
-  }
-}
+let currentPageUrl = `${location.origin}${location.pathname}`;
 
 function shouldHandleClickEvent(href: string) {
   if (!href) return false;
@@ -54,66 +42,51 @@ function renderApp() {
   );
 }
 
-const observerConfig = {
-  childList: true,
-  subtree: true,
-};
+function handleWindowClickEvent(event: Event) {
+  if (event.target instanceof HTMLAnchorElement) {
+    const shouldHandle = shouldHandleClickEvent(event.target.href);
+    if (shouldHandle) {
+      event.preventDefault();
+      open.value = true;
+      url.value = event.target.href;
+      title.value = event.target.text;
+      loading.value = true;
+    }
+  }
+}
 
 async function main() {
   renderApp();
 
-  let anchors = document.querySelectorAll('a');
-  const observer = new MutationObserver(function (mutations) {
-    // debounce
-    anchors.forEach(async (anchor) => {
-      if (shouldHandleClickEvent(anchor.href)) {
-        anchor.removeEventListener('click', handleAnchorClick);
-      }
-    });
-
-    anchors = document.querySelectorAll('a');
-    anchors.forEach(async (anchor) => {
-      if (shouldHandleClickEvent(anchor.href)) {
-        anchor.addEventListener('click', handleAnchorClick);
-      }
-    });
-  });
-
   const data = await browser.storage.sync.get(S_PAGES_KEY);
   const peekPages = data[S_PAGES_KEY] as string[];
   if (peekPages.includes(currentPageUrl)) {
-    anchors.forEach(async (anchor) => {
-      if (shouldHandleClickEvent(anchor.href)) {
-        anchor.addEventListener('click', handleAnchorClick);
-      }
-    });
-
-    observer.observe(document.body, observerConfig);
+    window.addEventListener('click', handleWindowClickEvent);
   }
 
+  browser.runtime.onMessage.addListener((message) => {
+    if (message.type === URL_CHANGED) {
+      currentPageUrl = message.url;
+      window.removeEventListener('click', handleWindowClickEvent);
+      if (peekPages.includes(currentPageUrl)) {
+        window.addEventListener('click', handleWindowClickEvent);
+      }
+    }
+  });
+
   browser.storage.onChanged.addListener(({ peekPages }) => {
-    const newValues = peekPages.newValue as string[];
-    const oldValues = peekPages.oldValue as string[];
+    const newPages = (peekPages.newValue as string[]) ?? [];
+    const prevPages = (peekPages.oldValue as string[]) ?? [];
     if (
-      oldValues.includes(currentPageUrl) &&
-      !newValues.includes(currentPageUrl)
+      prevPages.includes(currentPageUrl) &&
+      !newPages.includes(currentPageUrl)
     ) {
-      observer.disconnect();
-      anchors.forEach(async (anchor) => {
-        if (shouldHandleClickEvent(anchor.href)) {
-          anchor.removeEventListener('click', handleAnchorClick);
-        }
-      });
+      window.removeEventListener('click', handleWindowClickEvent);
     } else if (
-      !oldValues.includes(currentPageUrl) &&
-      newValues.includes(currentPageUrl)
+      !prevPages.includes(currentPageUrl) &&
+      newPages.includes(currentPageUrl)
     ) {
-      observer.observe(document.body, observerConfig);
-      anchors.forEach(async (anchor) => {
-        if (shouldHandleClickEvent(anchor.href)) {
-          anchor.addEventListener('click', handleAnchorClick);
-        }
-      });
+      window.addEventListener('click', handleWindowClickEvent);
     }
   });
 }

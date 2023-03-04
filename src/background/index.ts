@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill';
-import { S_PAGES_KEY } from '../constants';
+import { S_PAGES_KEY, URL_CHANGED } from '../constants';
 
 const storageCache: { [key: string]: string[] } = { [S_PAGES_KEY]: [] };
 const initStorageCache = browser.storage.sync.get().then((items) => {
@@ -31,14 +31,23 @@ browser.action.onClicked.addListener(async (tab) => {
   }
 });
 
-browser.tabs.onUpdated.addListener(async (tabId, changeInfo) => {
-  if (changeInfo.url) {
+browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+  if (tab.url) {
     const pages = storageCache[S_PAGES_KEY] as string[];
-    const url = new URL(changeInfo.url);
-    if (pages.includes(`${url.origin}${url.pathname}`)) {
-      browser.action.setIcon({ tabId, path: 'logo.png' });
-    } else {
-      browser.action.setIcon({ tabId, path: 'logo-gray.png' });
+    const url = new URL(tab.url);
+    if (pages.includes(`${url.origin}${url.pathname}`) && changeInfo.url) {
+      browser.tabs.sendMessage(tabId, {
+        url: changeInfo.url,
+        type: URL_CHANGED,
+      });
+    }
+
+    if (changeInfo.url || changeInfo?.status === 'loading') {
+      if (pages.includes(`${url.origin}${url.pathname}`)) {
+        browser.action.setIcon({ tabId, path: 'logo.png' });
+      } else {
+        browser.action.setIcon({ tabId, path: 'logo-gray.png' });
+      }
     }
   }
 });

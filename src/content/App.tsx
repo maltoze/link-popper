@@ -31,7 +31,7 @@ export default function App({ open, url, title, loading }: Props) {
           enter="ease-out duration-300"
           enterFrom="opacity-0"
           enterTo="opacity-100"
-          leave="ease-in duration-200"
+          leave="ease-in duration-100"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
@@ -44,7 +44,7 @@ export default function App({ open, url, title, loading }: Props) {
               enter="ease-out duration-300"
               enterFrom="opacity-0 scale-95"
               enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
+              leave="ease-in duration-100"
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
@@ -64,7 +64,7 @@ export default function App({ open, url, title, loading }: Props) {
                     <a
                       href={url.value}
                       target="_blank"
-                      className="text-zinc-800 hover:text-zinc-400 dark:text-zinc-100"
+                      className="text-zinc-800 visited:text-zinc-800 hover:text-zinc-400 dark:text-zinc-100 dark:visited:text-zinc-100"
                     >
                       <HiArrowTopRightOnSquare size={20} />
                     </a>
