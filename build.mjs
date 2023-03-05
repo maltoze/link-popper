@@ -13,7 +13,7 @@ async function deleteOldDir() {
 
 async function runEsbuild() {
   return await esbuild.build({
-    entryPoints: ['src/content/index.tsx', 'src/background/index.ts'],
+    entryPoints: ['src/content/index.tsx'],
     bundle: true,
     outdir: outdir,
     treeShaking: true,
@@ -63,11 +63,9 @@ async function build() {
   const result = await runEsbuild();
 
   const commonFiles = [
-    { src: 'build/content/index.js', dst: 'content.js' },
-    { src: 'build/content/index.css', dst: 'content.css' },
-    { src: 'build/background/index.js', dst: 'background.js' },
+    { src: 'build/index.js', dst: 'content.js' },
+    { src: 'build/index.css', dst: 'content.css' },
     { src: 'src/logo.png', dst: 'logo.png' },
-    { src: 'src/logo-gray.png', dst: 'logo-gray.png' },
   ];
 
   // chromium

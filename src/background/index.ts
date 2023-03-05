@@ -6,6 +6,14 @@ const initStorageCache = browser.storage.sync.get().then((items) => {
   Object.assign(storageCache, items);
 });
 
+function setActionStatus(tabId: number | undefined, enabled: boolean) {
+  if (enabled) {
+    browser.action.setIcon({ tabId, path: 'logo.png' });
+  } else {
+    browser.action.setIcon({ tabId, path: 'logo-gray.png' });
+  }
+}
+
 browser.action.onClicked.addListener(async (tab) => {
   if (tab.url) {
     try {
@@ -22,11 +30,11 @@ browser.action.onClicked.addListener(async (tab) => {
       peekPages.splice(pIndex, 1);
       storageCache[S_PAGES_KEY] = peekPages;
       await browser.storage.sync.set(storageCache);
-      browser.action.setIcon({ tabId: tab.id, path: 'logo-gray.png' });
+      setActionStatus(tab.id, false);
     } else {
       storageCache[S_PAGES_KEY] = [...(peekPages ?? []), pageUrl];
       await browser.storage.sync.set(storageCache);
-      browser.action.setIcon({ tabId: tab.id, path: 'logo.png' });
+      setActionStatus(tab.id, true);
     }
   }
 });
@@ -44,9 +52,9 @@ browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
 
     if (changeInfo.url || changeInfo?.status === 'loading') {
       if (pages.includes(`${url.origin}${url.pathname}`)) {
-        browser.action.setIcon({ tabId, path: 'logo.png' });
+        setActionStatus(tabId, true);
       } else {
-        browser.action.setIcon({ tabId, path: 'logo-gray.png' });
+        setActionStatus(tabId, false);
       }
     }
   }

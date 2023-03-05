@@ -38,7 +38,7 @@ export default function App({ open, url, title, loading }: Props) {
           <div className="fixed inset-0 dark:bg-black/70" aria-hidden="true" />
         </Transition.Child>
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex h-[calc(100%-96px)] items-center justify-center py-12 px-20 md:px-48">
+          <div className="flex h-[calc(100%-96px)] items-center justify-center py-12 px-20 md:px-32 lg:px-48">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"

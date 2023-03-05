@@ -1,20 +1,19 @@
-import browser from 'webextension-polyfill';
 import { signal } from '@preact/signals';
 import { render } from 'preact';
 import App from './App';
-import { S_PAGES_KEY, URL_CHANGED } from '../constants';
+import { isSameOrigin } from '../utils';
 
-const containerId = 'linkpopper-container';
+const containerId = '__maltoze_linkpopper-container';
 
 const open = signal(false);
 const url = signal<string | null>(null);
 const title = signal<string | null>(null);
 const loading = signal(false);
 
-let currentPageUrl = `${location.origin}${location.pathname}`;
-
 function shouldHandleClickEvent(href: string) {
   if (!href) return false;
+
+  if (!isSameOrigin(href)) return false;
 
   try {
     const url = new URL(href);
@@ -32,14 +31,17 @@ function shouldHandleClickEvent(href: string) {
 }
 
 function renderApp() {
-  const container = document.createElement('div');
-  container.id = containerId;
-  document.body.appendChild(container);
+  const container = document.querySelector(`#${containerId}`);
+  container &&
+    render(
+      <App open={open} url={url} title={title} loading={loading} />,
+      container
+    );
+}
 
-  render(
-    <App open={open} url={url} title={title} loading={loading} />,
-    document.querySelector(`#${containerId}`) ?? document.body
-  );
+function destroyApp() {
+  const container = document.querySelector(`#${containerId}`);
+  container && render(null, container);
 }
 
 function handleWindowClickEvent(event: Event) {
@@ -56,39 +58,12 @@ function handleWindowClickEvent(event: Event) {
 }
 
 async function main() {
+  const container = document.createElement('div');
+  container.id = containerId;
+  document.body.appendChild(container);
+
   renderApp();
-
-  const data = await browser.storage.sync.get(S_PAGES_KEY);
-  const peekPages = data[S_PAGES_KEY] as string[];
-  if (peekPages.includes(currentPageUrl)) {
-    window.addEventListener('click', handleWindowClickEvent);
-  }
-
-  browser.runtime.onMessage.addListener((message) => {
-    if (message.type === URL_CHANGED) {
-      currentPageUrl = message.url;
-      window.removeEventListener('click', handleWindowClickEvent);
-      if (peekPages.includes(currentPageUrl)) {
-        window.addEventListener('click', handleWindowClickEvent);
-      }
-    }
-  });
-
-  browser.storage.onChanged.addListener(({ peekPages }) => {
-    const newPages = (peekPages.newValue as string[]) ?? [];
-    const prevPages = (peekPages.oldValue as string[]) ?? [];
-    if (
-      prevPages.includes(currentPageUrl) &&
-      !newPages.includes(currentPageUrl)
-    ) {
-      window.removeEventListener('click', handleWindowClickEvent);
-    } else if (
-      !prevPages.includes(currentPageUrl) &&
-      newPages.includes(currentPageUrl)
-    ) {
-      window.addEventListener('click', handleWindowClickEvent);
-    }
-  });
+  window.addEventListener('click', handleWindowClickEvent);
 }
 
 main();
