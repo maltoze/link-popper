@@ -14,7 +14,8 @@
       "matches": [
         "https://www.4d4y.com/forum/forumdisplay.php*",
         "https://v2ex.com/",
-        "https://v2ex.com/?tab=*"
+        "https://v2ex.com/?tab=*",
+        "https://v2ex.com/recent*"
       ],
       "js": ["content.js"],
       "css": ["content.css"]
