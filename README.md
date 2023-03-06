@@ -14,6 +14,7 @@ Link Popper 目前可以在以下网站上使用：
 ## 安装
 
 - Chrome 插件（审核中)
+- Firefox 插件（审核中)
 
 ## 开发
 
