@@ -9,8 +9,6 @@ Link Popper 目前可以在以下网站上使用：
 - [v2ex](https://v2ex.com)
 - [4d4y](https://4d4y.com)
 
-在这些网站上，用户可以使用 Link Popper 在当前窗口中打开链接，而不必跳转至新页面
-
 ## 安装
 
 - Chrome 插件（审核中)
