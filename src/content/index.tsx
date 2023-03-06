@@ -2,6 +2,7 @@ import { signal } from '@preact/signals';
 import { render } from 'preact';
 import App from './App';
 import { isSameOrigin } from '../utils';
+import { rules } from './config';
 
 const containerId = '__maltoze_linkpopper-container';
 
@@ -10,6 +11,8 @@ const url = signal<string | null>(null);
 const title = signal<string | null>(null);
 const loading = signal(false);
 
+const matchRule = rules[location.hostname];
+
 function shouldHandleClickEvent(href: string) {
   if (!href) return false;
 
@@ -17,6 +20,11 @@ function shouldHandleClickEvent(href: string) {
 
   try {
     const url = new URL(href);
+
+    if (matchRule.exclude.includes(url.pathname)) {
+      return false;
+    }
+
     if (url.origin === location.origin && url.pathname === location.pathname) {
       return false;
     }
