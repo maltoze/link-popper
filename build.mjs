@@ -73,12 +73,21 @@ async function build() {
     [...commonFiles, { src: 'src/manifest.json', dst: 'manifest.json' }],
     `./${outdir}/chromium`
   );
-
   await zipFolder(`./${outdir}/chromium`);
+
+  // firefox
+  await copyFiles(
+    [...commonFiles, { src: 'src/manifest.v2.json', dst: 'manifest.json' }],
+    `./${outdir}/firefox`
+  );
+  await zipFolder(`./${outdir}/firefox`);
 
   if (result.metafile) {
     // use https://bundle-buddy.com/esbuild to analyses
-    await fs.writeFile(`./${outdir}/metafile.json`, JSON.stringify(result.metafile));
+    await fs.writeFile(
+      `./${outdir}/metafile.json`,
+      JSON.stringify(result.metafile)
+    );
   }
   console.log('Build success.');
 }

@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "Link Popper",
+  "version": "1.0",
+  "description": "A browser extension that lets you browse linked pages without leaving the current one.",
+  "icons": {
+    "16": "logo.png",
+    "32": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.4d4y.com/forum/forumdisplay.php*",
+        "https://v2ex.com/",
+        "https://v2ex.com/?tab=*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ]
+}
