@@ -22,7 +22,7 @@ Link Popper 目前可以在以下网站上使用：
 1. 克隆本仓库到本地:
 
    ```
-   git clone https://github.com/your-username/link-popper.git
+   git clone https://github.com/maltoze/link-popper.git
    ```
 
 2. 安装依赖:
