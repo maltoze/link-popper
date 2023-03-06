@@ -11,7 +11,7 @@ const url = signal<string | null>(null);
 const title = signal<string | null>(null);
 const loading = signal(false);
 
-const matchRule = rules[location.hostname] ?? [];
+const matchRule = rules[location.hostname] ?? null;
 
 function shouldHandleClickEvent(href: string) {
   if (!href) return false;
@@ -21,7 +21,7 @@ function shouldHandleClickEvent(href: string) {
   try {
     const url = new URL(href);
 
-    if (matchRule.exclude.includes(url.pathname)) {
+    if (matchRule?.exclude.includes(url.pathname)) {
       return false;
     }
 
