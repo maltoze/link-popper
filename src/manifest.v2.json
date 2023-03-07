@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Link Popper",
-  "version": "1.1",
+  "version": "1.1.1",
   "description": "A browser extension that lets you browse linked pages without leaving the current one.",
   "icons": {
     "16": "logo.png",
