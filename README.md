@@ -11,7 +11,7 @@ Link Popper 目前可以在以下网站上使用：
 
 ## 安装
 
-- Chrome 插件（审核中)
+- [Chrome](https://chrome.google.com/webstore/detail/link-popper/icejebfpfnhgpdlchhfjpdnddcdamoje)
 - [Firefox](https://addons.mozilla.org/zh-CN/firefox/addon/link-popper/)
 
 ## 开发
