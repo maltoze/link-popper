@@ -2,12 +2,13 @@
 
 Link Popper 是一个方便的浏览器插件，用于在某些网站上提供在当前窗口打开链接的功能，无需跳转至新页面。
 
-## 功能
-
-Link Popper 目前可以在以下网站上使用：
+目前可以在以下网站上使用：
 
 - [v2ex](https://v2ex.com)
 - [4d4y](https://4d4y.com)
+
+## 预览
+![ezgif com-video-to-gif](https://user-images.githubusercontent.com/18044730/223592042-6539ece3-09e5-4d7d-a673-74f2073bd1ff.gif)
 
 ## 安装
 
