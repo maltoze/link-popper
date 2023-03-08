@@ -21,6 +21,10 @@ function shouldHandleClickEvent(href: string) {
   try {
     const url = new URL(href);
 
+    if (url.pathname === '/') {
+      return false;
+    }
+
     if (matchRule?.exclude.includes(url.pathname)) {
       return false;
     }
