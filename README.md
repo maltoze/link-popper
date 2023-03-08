@@ -8,7 +8,7 @@ Link Popper 是一个方便的浏览器插件，用于在某些网站上提供�
 - [4d4y](https://4d4y.com)
 
 ## 预览
-![ezgif com-video-to-gif](https://user-images.githubusercontent.com/18044730/223592042-6539ece3-09e5-4d7d-a673-74f2073bd1ff.gif)
+![preview-gif](https://user-images.githubusercontent.com/18044730/223592042-6539ece3-09e5-4d7d-a673-74f2073bd1ff.gif)
 
 ## 安装
 
