@@ -42,19 +42,10 @@ function shouldHandleClickEvent(href: string) {
   return true;
 }
 
-function renderApp() {
-  const container = document.querySelector(`#${containerId}`);
-  container &&
-    render(
-      <App open={open} url={url} title={title} loading={loading} />,
-      container
-    );
-}
-
-function destroyApp() {
-  const container = document.querySelector(`#${containerId}`);
-  container && render(null, container);
-}
+// function destroyApp() {
+//   const container = document.querySelector(`#${containerId}`);
+//   container && render(null, container);
+// }
 
 function handleWindowClickEvent(event: Event) {
   if (event.target instanceof HTMLAnchorElement) {
@@ -70,11 +61,24 @@ function handleWindowClickEvent(event: Event) {
 }
 
 async function main() {
-  const container = document.createElement('div');
-  container.id = containerId;
-  document.body.appendChild(container);
+  const root = document.createElement('div');
+  root.id = '__maltoze-linkpopper';
+  document.body.appendChild(root);
 
-  renderApp();
+  const shadowRoot = root.attachShadow({ mode: 'open' });
+  const inner = document.createElement('div');
+  shadowRoot.appendChild(inner);
+
+  const appContainer = document.createElement('div');
+  appContainer.id = containerId;
+  appContainer.style.position = 'absolute';
+  root.shadowRoot?.querySelector('div')?.appendChild(appContainer);
+
+  render(
+    <App open={open} url={url} title={title} loading={loading} />,
+    appContainer
+  );
+
   window.addEventListener('click', handleWindowClickEvent);
 }
 

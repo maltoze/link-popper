@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build": "node build.mjs",
-    "dev": "chokidar src -c 'pnpm build'"
+    "dev": "chokidar src -c 'pnpm build'",
+    "lint": "eslint src/**/*.{ts,tsx} --cache"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@headlessui/react": "^1.7.12",
     "@preact/signals": "^1.1.3",
     "preact": "^10.13.0",
     "react": "npm:@preact/compat",
@@ -19,6 +19,7 @@
     "react-icons": "^4.7.1"
   },
   "devDependencies": {
+    "@deanc/esbuild-plugin-postcss": "^1.0.2",
     "@types/webextension-polyfill": "^0.10.0",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
@@ -26,8 +27,11 @@
     "autoprefixer": "^10.4.13",
     "chokidar-cli": "^3.0.0",
     "esbuild": "^0.17.10",
-    "esbuild-style-plugin": "^1.6.1",
     "eslint": "^8.35.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "fs-extra": "^11.1.0",
     "postcss": "^8.4.21",
     "prettier": "^2.8.4",
