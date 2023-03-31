@@ -15,5 +15,8 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "ignorePatterns": ["build/**"]
+  "ignorePatterns": ["build/**"],
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  }
 }

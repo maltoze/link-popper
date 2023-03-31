@@ -3,7 +3,7 @@ import esbuild from 'esbuild';
 import fs from 'fs-extra';
 import autoprefixer from 'autoprefixer';
 import tailwindcss from 'tailwindcss';
-import postcssPlugin from 'esbuild-style-plugin';
+import postcssPlugin from '@deanc/esbuild-plugin-postcss';
 
 const outdir = 'build';
 
@@ -27,14 +27,24 @@ async function runEsbuild() {
     jsx: 'automatic',
     loader: {
       '.png': 'dataurl',
+      '.css': 'text',
     },
     metafile: true,
     plugins: [
       postcssPlugin({
-        postcss: {
-          plugins: [tailwindcss, autoprefixer],
-        },
+        plugins: [tailwindcss, autoprefixer],
       }),
+      // https://github.com/evanw/esbuild/issues/2609#issuecomment-1279867125
+      {
+        name: 'minify-css-string',
+        setup(build) {
+          build.onLoad({ filter: /\.css$/ }, async (args) => {
+            let css = await fs.promises.readFile(args.path);
+            css = await esbuild.transform(css, { loader: 'css', minify: true });
+            return { loader: 'text', contents: css.code };
+          });
+        },
+      },
     ],
   });
 }
@@ -64,7 +74,6 @@ async function build() {
 
   const commonFiles = [
     { src: 'build/index.js', dst: 'content.js' },
-    { src: 'build/index.css', dst: 'content.css' },
     { src: 'src/logo.png', dst: 'logo.png' },
   ];
 
