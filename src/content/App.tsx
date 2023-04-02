@@ -34,7 +34,7 @@ export default function App({ open, url, title, loading }: Props) {
       <style type="text/css">{styles.toString()}</style>
       <div className="fixed inset-0 overflow-y-auto">
         <div className="flex h-[calc(100%-96px)] flex-col items-center justify-center py-12 px-20 md:px-32 lg:px-48">
-          <div className="h-full w-full" ref={containerRef}>
+          <div className="h-full w-full shadow-xl" ref={containerRef}>
             <div className="grid h-10 grid-cols-6 items-center gap-4 rounded-t-xl bg-zinc-200 px-4 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100">
               <div className="col-span-4 col-start-2 inline-flex items-center justify-center gap-2">
                 {loading.value ? (
