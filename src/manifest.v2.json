@@ -18,8 +18,7 @@
         "https://*.v2ex.com/?tab=*",
         "https://*.v2ex.com/recent*"
       ],
-      "js": ["content.js"],
-      "css": ["content.css"]
+      "js": ["content.js"]
     }
   ]
 }
