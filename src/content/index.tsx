@@ -65,14 +65,12 @@ async function main() {
   root.id = '__maltoze-linkpopper';
   document.body.appendChild(root);
 
-  const shadowRoot = root.attachShadow({ mode: 'open' });
-  const inner = document.createElement('div');
-  shadowRoot.appendChild(inner);
+  root.attachShadow({ mode: 'open' });
 
   const appContainer = document.createElement('div');
   appContainer.id = containerId;
   appContainer.style.position = 'absolute';
-  root.shadowRoot?.querySelector('div')?.appendChild(appContainer);
+  root.shadowRoot?.appendChild(appContainer);
 
   render(
     <App open={open} url={url} title={title} loading={loading} />,
