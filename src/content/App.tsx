@@ -4,12 +4,18 @@ import { CgSpinnerAlt } from 'react-icons/cg';
 import { useRef } from 'preact/hooks';
 import useOnClickOutside from '../hooks/use-onclickoutside';
 import styles from '../styles/global.css';
+import { motion, Variants } from 'framer-motion';
 
 type Props = {
   open: Signal<boolean>;
   url: Signal<string | null>;
   title: Signal<string | null>;
   loading: Signal<boolean>;
+};
+
+const variants: Variants = {
+  open: { opacity: 1, x: 0, height: '100%', width: '100%' },
+  closed: { opacity: 0, height: 0, width: 0 },
 };
 
 export default function App({ open, url, title, loading }: Props) {
@@ -34,7 +40,15 @@ export default function App({ open, url, title, loading }: Props) {
       <style type="text/css">{styles.toString()}</style>
       <div className="fixed inset-0 overflow-y-auto">
         <div className="flex h-[calc(100%-96px)] flex-col items-center justify-center py-12 px-20 md:px-32 lg:px-48">
-          <div className="h-full w-full shadow-xl" ref={containerRef}>
+          <motion.div
+            className="shadow-xl"
+            ref={containerRef}
+            layout
+            animate="open"
+            exit="closed"
+            variants={variants}
+            initial="closed"
+          >
             <div className="grid h-10 grid-cols-6 items-center gap-4 rounded-t-xl bg-zinc-200 px-4 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100">
               <div className="col-span-4 col-start-2 inline-flex items-center justify-center gap-2">
                 {loading.value ? (
@@ -68,7 +82,7 @@ export default function App({ open, url, title, loading }: Props) {
               onLoad={handleOnLoad}
               className="h-[calc(100%-40px)] w-full border-none bg-zinc-100 dark:bg-zinc-600"
             />
-          </div>
+          </motion.div>
         </div>
       </div>
     </>
