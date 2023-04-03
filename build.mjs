@@ -88,7 +88,7 @@ async function build() {
 
   // firefox
   await copyFiles(
-    [...commonFiles, { src: 'src/manifest.ff.json', dst: 'manifest.json' }],
+    [...commonFiles, { src: 'src/manifest.v2.json', dst: 'manifest.json' }],
     `./${outdir}/firefox`
   );
   await zipFolder(`./${outdir}/firefox`);

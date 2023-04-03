@@ -35,6 +35,10 @@ export default function App({ open, url, title, loading }: Props) {
 
   function handleOnLoad() {
     loading.value = false;
+    const iframeTitle = iframeRef.current?.contentDocument?.title;
+    if (iframeTitle) {
+      title.value = iframeTitle;
+    }
   }
 
   function handleOpenInMainFrame() {
