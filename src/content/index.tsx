@@ -69,7 +69,6 @@ async function main() {
 
   const appContainer = document.createElement('div');
   appContainer.id = containerId;
-  appContainer.style.position = 'absolute';
   root.shadowRoot?.appendChild(appContainer);
 
   render(
