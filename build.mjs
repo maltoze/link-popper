@@ -13,7 +13,7 @@ async function deleteOldDir() {
 
 async function runEsbuild() {
   return await esbuild.build({
-    entryPoints: ['src/content/index.tsx'],
+    entryPoints: ['src/content/index.tsx', "src/background/index.ts"],
     bundle: true,
     outdir: outdir,
     treeShaking: true,
@@ -73,8 +73,10 @@ async function build() {
   const result = await runEsbuild();
 
   const commonFiles = [
-    { src: 'build/index.js', dst: 'content.js' },
+    { src: 'build/content/index.js', dst: 'content.js' },
+    { src: 'build/background/index.js', dst: 'background.js' },
     { src: 'src/logo.png', dst: 'logo.png' },
+    { src: 'src/rules.json', dst: 'rules.json' },
   ];
 
   // chromium
@@ -86,7 +88,7 @@ async function build() {
 
   // firefox
   await copyFiles(
-    [...commonFiles, { src: 'src/manifest.v2.json', dst: 'manifest.json' }],
+    [...commonFiles, { src: 'src/manifest.ff.json', dst: 'manifest.json' }],
     `./${outdir}/firefox`
   );
   await zipFolder(`./${outdir}/firefox`);
