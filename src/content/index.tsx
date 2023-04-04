@@ -15,10 +15,6 @@ function shouldHandleClickEvent(href: string) {
   try {
     const url = new URL(href);
 
-    if (url.pathname === '/') {
-      return false;
-    }
-
     if (url.origin === location.origin && url.pathname === location.pathname) {
       return false;
     }
@@ -37,14 +33,17 @@ function shouldHandleClickEvent(href: string) {
 //   container && render(null, container);
 // }
 
-function handleWindowClickEvent(event: Event) {
-  if (event.target instanceof HTMLAnchorElement) {
-    const shouldHandle = shouldHandleClickEvent(event.target.href);
+function handleWindowClickEvent(event: MouseEvent) {
+  const composedPath = event.composedPath();
+  const target = composedPath.find((node) => node instanceof HTMLAnchorElement);
+
+  if (target instanceof HTMLAnchorElement) {
+    const shouldHandle = shouldHandleClickEvent(target.href);
     if (shouldHandle) {
       event.preventDefault();
       open.value = true;
-      url.value = event.target.href;
-      title.value = event.target.text;
+      url.value = target.href;
+      title.value = target.text;
       loading.value = true;
     }
   }

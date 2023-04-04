@@ -41,11 +41,21 @@ export default function App({ open, url, title, loading }: Props) {
     }
   }
 
-  function handleOpenInMainFrame() {
+  function handleOpenInMainFrame(event: MouseEvent) {
+    event.stopPropagation();
+
     const iframeDocument = iframeRef.current?.contentDocument;
-    if (url.value && window.top && iframeDocument) {
-      window.top.location.href = iframeDocument.location.href;
+    if (url.value) {
+      window.location.href = iframeDocument?.location.href ?? url.value;
     }
+  }
+
+  function handleOpenInNewTab(event: MouseEvent) {
+    event.stopPropagation();
+
+    const iframeDocument = iframeRef.current?.contentDocument;
+    url.value &&
+      window.open(iframeDocument?.location.href ?? url.value, '_blank');
   }
 
   return (
@@ -75,14 +85,12 @@ export default function App({ open, url, title, loading }: Props) {
                     <span className="truncate text-sm">{title}</span>
                   </div>
                   <div className="flex items-center justify-end gap-2">
-                    <a
-                      href={url.value}
-                      target="_blank"
+                    <button
+                      onClick={handleOpenInNewTab}
                       className="header-icon-btn"
-                      rel="noreferrer"
                     >
                       <RxOpenInNewWindow size={20} />
-                    </a>
+                    </button>
                     <button
                       className="header-icon-btn rotate-[270deg]"
                       onClick={handleOpenInMainFrame}
