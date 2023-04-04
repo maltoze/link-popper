@@ -1,4 +1,4 @@
-# 🌟 Link Popper
+# Link Popper
 
 Link Popper 是一个方便的浏览器插件，可以在当前窗口中打开链接而无需跳转到新页面。
 
