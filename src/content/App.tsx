@@ -106,7 +106,7 @@ export default function App({ open, url, title, loading }: Props) {
                   ref={iframeRef}
                   src={url.value}
                   onLoad={handleOnLoad}
-                  className="h-[calc(100%-40px)] w-full border-none bg-zinc-100 dark:bg-zinc-600"
+                  className="h-[calc(100%-40px)] w-full border-none bg-white"
                 />
               </motion.div>
             </div>
