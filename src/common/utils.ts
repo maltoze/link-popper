@@ -9,3 +9,5 @@ export default function getEventTarget(event: Event): EventTarget | null {
   }
   return event.target;
 }
+
+export const isFirefox = /firefox/i.test(navigator.userAgent);
