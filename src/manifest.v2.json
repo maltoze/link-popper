@@ -11,14 +11,12 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "https://www.4d4y.com/forum/forumdisplay.php*",
-        "https://www.4d4y.com/forum/search.php*",
-        "https://*.v2ex.com/",
-        "https://*.v2ex.com/?tab=*",
-        "https://*.v2ex.com/recent*"
-      ],
+      "matches": ["<all_urls>"],
       "js": ["content.js"]
     }
-  ]
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": ["webRequest", "webRequestBlocking", "<all_urls>"]
 }

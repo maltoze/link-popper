@@ -1,8 +1,6 @@
 import { signal } from '@preact/signals';
 import { render } from 'preact';
 import App from './App';
-import { isSameOrigin } from '../utils';
-import { rules } from './config';
 
 const containerId = '__maltoze_linkpopper-container';
 
@@ -11,23 +9,11 @@ const url = signal<string | null>(null);
 const title = signal<string | null>(null);
 const loading = signal(false);
 
-const matchRule = rules[location.hostname] ?? null;
-
 function shouldHandleClickEvent(href: string) {
   if (!href) return false;
 
-  if (!isSameOrigin(href)) return false;
-
   try {
     const url = new URL(href);
-
-    if (url.pathname === '/') {
-      return false;
-    }
-
-    if (matchRule?.exclude.includes(url.pathname)) {
-      return false;
-    }
 
     if (url.origin === location.origin && url.pathname === location.pathname) {
       return false;
@@ -47,14 +33,17 @@ function shouldHandleClickEvent(href: string) {
 //   container && render(null, container);
 // }
 
-function handleWindowClickEvent(event: Event) {
-  if (event.target instanceof HTMLAnchorElement) {
-    const shouldHandle = shouldHandleClickEvent(event.target.href);
+function handleWindowClickEvent(event: MouseEvent) {
+  const composedPath = event.composedPath();
+  const target = composedPath.find((node) => node instanceof HTMLAnchorElement);
+
+  if (target instanceof HTMLAnchorElement) {
+    const shouldHandle = shouldHandleClickEvent(target.href);
     if (shouldHandle) {
       event.preventDefault();
       open.value = true;
-      url.value = event.target.href;
-      title.value = event.target.text;
+      url.value = target.href;
+      title.value = target.text;
       loading.value = true;
     }
   }

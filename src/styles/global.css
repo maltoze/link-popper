@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .header-icon-btn {
+    @apply text-zinc-800 hover:text-zinc-400 dark:text-zinc-100;
+  }
+}

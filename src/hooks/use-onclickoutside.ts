@@ -1,6 +1,6 @@
 import { RefObject } from 'preact';
 import { useEffect } from 'preact/hooks';
-import getEventTarget from '../utils';
+import getEventTarget from '../common/utils';
 
 type AnyEvent = MouseEvent | TouchEvent;
 
