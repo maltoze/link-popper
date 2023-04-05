@@ -41,6 +41,8 @@ function handleWindowClickEvent(event: MouseEvent) {
     const shouldHandle = shouldHandleClickEvent(target.href);
     if (shouldHandle) {
       event.preventDefault();
+      event.stopPropagation();
+
       open.value = true;
       url.value = target.href;
       title.value = target.text;
@@ -65,7 +67,7 @@ async function main() {
     appContainer
   );
 
-  window.addEventListener('click', handleWindowClickEvent);
+  window.addEventListener('click', handleWindowClickEvent, { capture: true });
 }
 
 main();
