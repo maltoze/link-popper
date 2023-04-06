@@ -8,7 +8,9 @@
         { "header": "x-frame-options", "operation": "remove" },
         { "header": "X-Frame-Options", "operation": "remove" },
         { "header": "content-security-policy", "operation": "remove" },
-        { "header": "Content-Security-Policy", "operation": "remove" }
+        { "header": "Content-Security-Policy", "operation": "remove" },
+        {"header": "cross-origin-resource-policy", "operation": "set", "value": "cross-origin"},
+        {"header": "cross-origin-embedder-policy", "operation": "set", "value": "credentialless"}
       ]
     },
     "condition": {
