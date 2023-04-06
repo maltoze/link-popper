@@ -5,6 +5,7 @@ import { useRef } from 'preact/hooks';
 import useOnClickOutside from '../hooks/use-onclickoutside';
 import styles from '../styles/global.css';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
+import Moveable from 'preact-moveable';
 
 type Props = {
   open: Signal<boolean>;
@@ -70,6 +71,26 @@ export default function App({ open, url, title, loading }: Props) {
         {open.value && url.value && (
           <div className="fixed inset-0 z-[2147483647] overflow-y-auto">
             <div className="flex h-full flex-col items-center justify-center py-12 px-20 md:px-32 lg:px-48">
+              <Moveable
+                target={containerRef}
+                draggable={true}
+                resizable={{
+                  edge: ['e', 'w', 'n', 's'],
+                  renderDirections: ['e', 'w', 'ne', 'nw', 'se', 'sw'],
+                }}
+                origin={false}
+                hideDefaultLines={true}
+                onDrag={(e) => {
+                  e.target.style.transform = e.transform;
+                }}
+                onResize={(e) => {
+                  e.target.style.width = `${e.width}px`;
+                  e.target.style.height = `${e.height}px`;
+                  e.target.style.transform = e.drag.transform;
+                }}
+                useResizeObserver={true}
+                useMutationObserver={true}
+              />
               <motion.div
                 className="shadow-xl"
                 ref={containerRef}
@@ -78,7 +99,7 @@ export default function App({ open, url, title, loading }: Props) {
                 variants={variants}
                 initial="closed"
               >
-                <div className="grid h-10 grid-cols-6 items-center gap-4 rounded-t-xl bg-zinc-200 px-4 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100">
+                <div className="grid h-10 cursor-default grid-cols-6 items-center gap-4 rounded-t-xl bg-zinc-200 px-4 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100">
                   <div className="col-span-4 col-start-2 inline-flex items-center justify-center gap-2">
                     {loading.value ? (
                       <i className="h-5 w-5 shrink-0 animate-spin">
