@@ -41,12 +41,17 @@ export default function App({ open, url, title, loading }: Props) {
     }
   }
 
+  function getOpenUrl(openUrl: string | undefined) {
+    return openUrl && openUrl !== 'about:blank' ? openUrl : url.value;
+  }
+
   function handleOpenInMainFrame(event: MouseEvent) {
     event.stopPropagation();
 
     const iframeDocument = iframeRef.current?.contentDocument;
-    if (url.value) {
-      window.location.href = iframeDocument?.location.href ?? url.value;
+    const openUrl = getOpenUrl(iframeDocument?.location.href);
+    if (openUrl) {
+      window.location.href = openUrl;
     }
   }
 
@@ -54,8 +59,8 @@ export default function App({ open, url, title, loading }: Props) {
     event.stopPropagation();
 
     const iframeDocument = iframeRef.current?.contentDocument;
-    url.value &&
-      window.open(iframeDocument?.location.href ?? url.value, '_blank');
+    const openUrl = getOpenUrl(iframeDocument?.location.href);
+    openUrl && window.open(openUrl, '_blank');
   }
 
   return (
@@ -107,6 +112,7 @@ export default function App({ open, url, title, loading }: Props) {
                   src={url.value}
                   onLoad={handleOnLoad}
                   className="h-[calc(100%-40px)] w-full border-none bg-white"
+                  sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation"
                 />
               </motion.div>
             </div>
