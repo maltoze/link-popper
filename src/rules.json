@@ -9,11 +9,6 @@
         { "header": "X-Frame-Options", "operation": "remove" },
         { "header": "content-security-policy", "operation": "remove" },
         { "header": "Content-Security-Policy", "operation": "remove" }
-      ],
-      "requestHeaders": [
-        { "header": "sec-fetch-dest", "operation": "remove" },
-        { "header": "sec-fetch-site", "operation": "remove" },
-        { "header": "referer", "operation": "remove" }
       ]
     },
     "condition": {
