@@ -112,7 +112,6 @@ export default function App({ open, url, title, loading }: Props) {
                   src={url.value}
                   onLoad={handleOnLoad}
                   className="h-[calc(100%-40px)] w-full border-none bg-white"
-                  sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation"
                 />
               </motion.div>
             </div>
