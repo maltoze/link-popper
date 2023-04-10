@@ -1,14 +1,12 @@
-import { Signal } from '@preact/signals';
 import { RxCross1, RxOpenInNewWindow } from 'react-icons/rx';
 import { CgSpinnerAlt } from 'react-icons/cg';
-import { useRef } from 'preact/hooks';
+import { useRef, useState } from 'preact/hooks';
 import styles from '../styles/global.css';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 
 type Props = {
-  url: Signal<string | null>;
-  title: Signal<string | null>;
-  loading: Signal<boolean>;
+  url: string;
+  title: string;
   onClose: () => void;
 };
 
@@ -22,20 +20,23 @@ const variants: Variants = {
   },
 };
 
-export default function App({ url, title, loading, onClose }: Props) {
+export default function App({ url, title: defaultTitle, onClose }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
+  const [loading, setLoading] = useState(true);
+  const [title, setTitle] = useState(defaultTitle);
+
   function handleOnLoad() {
-    loading.value = false;
+    setLoading(false);
     const iframeTitle = iframeRef.current?.contentDocument?.title;
     if (iframeTitle) {
-      title.value = iframeTitle;
+      setTitle(iframeTitle);
     }
   }
 
   function getOpenUrl(openUrl: string | undefined) {
-    return openUrl && openUrl !== 'about:blank' ? openUrl : url.value;
+    return openUrl && openUrl !== 'about:blank' ? openUrl : url;
   }
 
   function handleOpenInMainFrame(event: MouseEvent) {
@@ -60,7 +61,7 @@ export default function App({ url, title, loading, onClose }: Props) {
     <>
       <style type="text/css">{styles.toString()}</style>
       <AnimatePresence>
-        {url.value && (
+        {url && (
           <motion.div
             className="h-full w-full shadow-xl"
             ref={containerRef}
@@ -71,7 +72,7 @@ export default function App({ url, title, loading, onClose }: Props) {
           >
             <div className="grid h-10 grid-cols-6 items-center gap-4 rounded-t-xl bg-zinc-200 px-4 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100">
               <div className="col-span-4 col-start-2 inline-flex items-center justify-center gap-2">
-                {loading.value ? (
+                {loading ? (
                   <i className="h-5 w-5 shrink-0 animate-spin">
                     <CgSpinnerAlt size={22} />
                   </i>
@@ -100,7 +101,7 @@ export default function App({ url, title, loading, onClose }: Props) {
             </div>
             <iframe
               ref={iframeRef}
-              src={url.value}
+              src={url}
               onLoad={handleOnLoad}
               className="h-[calc(100%-40px)] w-full border-none bg-white"
             />
