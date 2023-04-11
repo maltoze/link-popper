@@ -1,9 +1,6 @@
 # Link Popper
 
-Link Popper 是一个方便的浏览器插件，可以在当前窗口中打开链接而无需跳转到新页面。
-
-## 预览
-![preview-gif](https://user-images.githubusercontent.com/18044730/223592042-6539ece3-09e5-4d7d-a673-74f2073bd1ff.gif)
+支持在当前窗口中打开链接而无需跳转到新页面的浏览器插件。
 
 ## 安装
 
@@ -38,3 +35,4 @@ Link Popper 是一个方便的浏览器插件，可以在当前窗口中打开�
 
 ## Credits
 - [chatgpt-google-extension](https://github.com/wong2/chatgpt-google-extension)
+- [openai-translator](https://github.com/yetone/openai-translator)
