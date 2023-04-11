@@ -43,8 +43,12 @@ function handleWindowClickEvent(event: MouseEvent) {
       event.preventDefault();
       event.stopPropagation();
 
+      const targetUrl = new URL(target.href);
+      if (targetUrl.protocol !== location.protocol) {
+        targetUrl.protocol = location.protocol;
+      }
+      url.value = targetUrl.href;
       open.value = true;
-      url.value = target.href;
       title.value = target.text;
       loading.value = true;
     }
