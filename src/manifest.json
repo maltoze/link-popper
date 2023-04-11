@@ -9,6 +9,10 @@
     "48": "logo.png",
     "128": "logo.png"
   },
+  "action": {
+    "default_icon": "logo.png",
+    "default_popup": "popup.html"
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
@@ -18,7 +22,7 @@
   "background": {
     "service_worker": "background.js"
   },
-  "permissions": ["declarativeNetRequest"],
+  "permissions": ["declarativeNetRequest", "storage"],
   "host_permissions": ["<all_urls>"],
   "declarative_net_request": {
     "rule_resources": [

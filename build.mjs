@@ -13,7 +13,11 @@ async function deleteOldDir() {
 
 async function runEsbuild() {
   return await esbuild.build({
-    entryPoints: ['src/content/index.tsx', "src/background/index.ts"],
+    entryPoints: [
+      'src/content/index.tsx',
+      'src/background/index.ts',
+      'src/popup/index.tsx',
+    ],
     bundle: true,
     outdir: outdir,
     treeShaking: true,
@@ -27,7 +31,6 @@ async function runEsbuild() {
     jsx: 'automatic',
     loader: {
       '.png': 'dataurl',
-      '.css': 'text',
     },
     metafile: true,
     plugins: [
@@ -75,6 +78,8 @@ async function build() {
   const commonFiles = [
     { src: 'build/content/index.js', dst: 'content.js' },
     { src: 'build/background/index.js', dst: 'background.js' },
+    { src: 'build/popup/index.js', dst: 'popup.js' },
+    { src: 'src/popup/index.html', dst: 'popup.html' },
     { src: 'src/logo.png', dst: 'logo.png' },
     { src: 'src/rules.json', dst: 'rules.json' },
   ];
