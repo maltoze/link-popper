@@ -1,5 +1,7 @@
 import { signal } from '@preact/signals';
 import { render } from 'preact';
+import browser from 'webextension-polyfill';
+import { getSettings } from '../common/utils';
 import App from './App';
 
 const containerId = '__maltoze_linkpopper-container';
@@ -16,6 +18,11 @@ function shouldHandleClickEvent(href: string) {
     const url = new URL(href);
 
     if (url.origin === location.origin && url.pathname === location.pathname) {
+      return false;
+    }
+
+    // mixed content will be blocked by browser
+    if (url.protocol !== location.protocol) {
       return false;
     }
   } catch (err) {
@@ -43,11 +50,7 @@ function handleWindowClickEvent(event: MouseEvent) {
       event.preventDefault();
       event.stopPropagation();
 
-      const targetUrl = new URL(target.href);
-      if (targetUrl.protocol !== location.protocol) {
-        targetUrl.protocol = location.protocol;
-      }
-      url.value = targetUrl.href;
+      url.value = target.href;
       open.value = true;
       title.value = target.text;
       loading.value = true;
@@ -71,7 +74,26 @@ async function main() {
     appContainer
   );
 
-  window.addEventListener('click', handleWindowClickEvent, { capture: true });
+  const settings = await getSettings();
+  const currentUrl = `${location.origin}${location.pathname}`;
+  if (settings.urlList.includes(currentUrl)) {
+    window.addEventListener('click', handleWindowClickEvent, { capture: true });
+  }
+
+  browser.runtime.onMessage.addListener((message) => {
+    switch (message.type) {
+      case 'enable':
+        window.addEventListener('click', handleWindowClickEvent, {
+          capture: true,
+        });
+        break;
+      case 'disable':
+        window.removeEventListener('click', handleWindowClickEvent, {
+          capture: true,
+        });
+        break;
+    }
+  });
 }
 
 main();

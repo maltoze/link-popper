@@ -21,7 +21,7 @@ async function getCurrentUrl() {
 export default function App() {
   const [currentUrl, setCurrentUrl] = useState<string | null>(null);
   const { settings, setSettings } = useSettings();
-  const included = currentUrl ? settings?.urlList.includes(currentUrl) : false;
+  const matched = currentUrl ? settings?.urlList.includes(currentUrl) : false;
 
   useEffect(() => {
     (async () => setCurrentUrl(await getCurrentUrl()))();
@@ -29,11 +29,19 @@ export default function App() {
 
   async function handleToggleClick() {
     let newUrlList: ISettings['urlList'];
-    if (included) {
+    const [tab] = await browser.tabs.query({
+      active: true,
+      lastFocusedWindow: true,
+    });
+
+    if (matched) {
       newUrlList = settings?.urlList.filter((url) => url !== currentUrl) ?? [];
+      tab.id && browser.tabs.sendMessage(tab.id, { type: 'disable' });
     } else {
       newUrlList = currentUrl ? [...(settings?.urlList ?? []), currentUrl] : [];
+      tab.id && browser.tabs.sendMessage(tab.id, { type: 'enable' });
     }
+
     await utils.setSettings({ urlList: newUrlList });
     setSettings({ urlList: newUrlList });
   }
@@ -47,14 +55,14 @@ export default function App() {
           className={cx(
             'w-full rounded px-6 py-2 text-zinc-100 disabled:bg-zinc-400',
             {
-              'bg-red-600 hover:bg-red-700': included,
-              'bg-blue-600 hover:bg-blue-700': !included,
+              'bg-red-600 hover:bg-red-700': matched,
+              'bg-blue-600 hover:bg-blue-700': !matched,
             }
           )}
           disabled={!currentUrl}
           onClick={handleToggleClick}
         >
-          {included ? 'Disable' : 'Enable'}
+          {matched ? 'Disable' : 'Enable'}
         </button>
       </div>
     </>
