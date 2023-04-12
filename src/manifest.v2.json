@@ -15,8 +15,16 @@
       "js": ["content.js"]
     }
   ],
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
   "background": {
     "scripts": ["background.js"]
   },
-  "permissions": ["webRequest", "webRequestBlocking", "<all_urls>", "storage"]
+  "permissions": ["webRequest", "webRequestBlocking", "<all_urls>", "storage"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "linkpopper@maltoze.cc"
+    }
+  }
 }
