@@ -24,7 +24,7 @@
   "permissions": ["webRequest", "webRequestBlocking", "<all_urls>", "storage"],
   "browser_specific_settings": {
     "gecko": {
-      "id": "linkpopper@maltoze.cc"
+      "id": "{a4ae78e4-6d6b-4b7e-b333-e74e31964021}"
     }
   }
 }
