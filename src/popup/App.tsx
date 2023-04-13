@@ -50,20 +50,24 @@ export default function App() {
     <>
       <style type="text/css">{styles.toString()}</style>
       <div className="flex w-64 flex-col gap-2 p-3">
-        <label className="break-words text-sm">Current URL: {currentUrl}</label>
-        <button
-          className={cx(
-            'w-full rounded px-6 py-2 text-zinc-100 disabled:bg-zinc-400',
-            {
-              'bg-red-600 hover:bg-red-700': matched,
-              'bg-blue-600 hover:bg-blue-700': !matched,
-            }
-          )}
-          disabled={!currentUrl}
-          onClick={handleToggleClick}
-        >
-          {matched ? 'Disable' : 'Enable'}
-        </button>
+        <div className="flex flex-col gap-2">
+          <div className="break-words text-sm">
+            Current URL: <span>{currentUrl}</span>
+          </div>
+          <button
+            className={cx(
+              'w-full rounded px-6 py-2 text-zinc-100 disabled:bg-zinc-400 disabled:cursor-not-allowed',
+              {
+                'bg-red-600 hover:bg-red-700': matched,
+                'bg-blue-600 hover:bg-blue-700': !matched,
+              }
+            )}
+            disabled={!currentUrl}
+            onClick={handleToggleClick}
+          >
+            {matched ? 'Disable' : 'Enable'}
+          </button>
+        </div>
       </div>
     </>
   );
