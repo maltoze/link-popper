@@ -10,6 +10,10 @@
     "noEmit": true,
     "skipLibCheck": true,
     "strict": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "paths": {
+      "react": ["./node_modules/preact/compat/"],
+      "react-dom": ["./node_modules/preact/compat/"]
+    }
   }
 }

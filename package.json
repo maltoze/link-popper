@@ -17,11 +17,14 @@
     "framer-motion": "^10.10.0",
     "preact": "^10.13.0",
     "react": "npm:@preact/compat",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "npm:@preact/compat",
+    "react-hot-toast": "^2.4.0",
     "react-icons": "^4.7.1"
   },
   "devDependencies": {
     "@deanc/esbuild-plugin-postcss": "^1.0.2",
+    "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/webextension-polyfill": "^0.10.0",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",

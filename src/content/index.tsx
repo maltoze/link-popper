@@ -3,6 +3,7 @@ import { render } from 'preact';
 import browser from 'webextension-polyfill';
 import { getSettings } from '../common/utils';
 import App from './App';
+import styles from '../styles/global.css';
 
 const containerId = '__maltoze_linkpopper-container';
 
@@ -70,7 +71,10 @@ async function main() {
   root.shadowRoot?.appendChild(appContainer);
 
   render(
-    <App open={open} url={url} title={title} loading={loading} />,
+    <>
+      <style type="text/css">{styles.toString()}</style>
+      <App open={open} url={url} title={title} loading={loading} />
+    </>,
     appContainer
   );
 
