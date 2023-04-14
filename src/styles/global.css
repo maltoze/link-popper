@@ -6,4 +6,8 @@
   .header-icon-btn {
     @apply text-zinc-800 hover:text-zinc-400 dark:text-zinc-100;
   }
+
+  .kbd {
+    @apply inline-block rounded border px-1 py-0.5 leading-none;
+  }
 }
