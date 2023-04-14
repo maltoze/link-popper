@@ -1,10 +1,12 @@
 import { Signal } from '@preact/signals';
-import { RxCross1, RxOpenInNewWindow } from 'react-icons/rx';
+import { RxCross1, RxLink2, RxOpenInNewWindow } from 'react-icons/rx';
 import { CgSpinnerAlt } from 'react-icons/cg';
-import { useRef } from 'preact/hooks';
+import { useRef, useState } from 'preact/hooks';
 import useOnClickOutside from '../hooks/use-onclickoutside';
-import styles from '../styles/global.css';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
+import toast from 'react-hot-toast/headless';
+import Toaster from '../components/Toaster';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 type Props = {
   open: Signal<boolean>;
@@ -63,61 +65,76 @@ export default function App({ open, url, title, loading }: Props) {
     openUrl && window.open(openUrl, '_blank');
   }
 
+  const [copyUrl, setCopyUrl] = useState(url.value);
+  function handleCopyUrl() {
+    const currentUrl =
+      getOpenUrl(iframeRef.current?.contentDocument?.location.href) ??
+      url.value;
+    setCopyUrl(currentUrl);
+    toast('Link copied!', { icon: '👏' });
+  }
+
   return (
-    <>
-      <style type="text/css">{styles.toString()}</style>
-      <AnimatePresence>
-        {open.value && url.value && (
-          <div className="fixed inset-0 z-[2147483647] overflow-y-auto">
-            <div className="flex h-full flex-col items-center justify-center py-12 px-20 md:px-32 lg:px-48">
-              <motion.div
-                className="shadow-xl"
-                ref={containerRef}
-                animate="open"
-                exit="closed"
-                variants={variants}
-                initial="closed"
-              >
-                <div className="grid h-10 grid-cols-6 items-center gap-4 rounded-t-xl bg-zinc-200 px-4 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100">
-                  <div className="col-span-4 col-start-2 inline-flex items-center justify-center gap-2">
-                    {loading.value ? (
-                      <i className="h-5 w-5 shrink-0 animate-spin">
-                        <CgSpinnerAlt size={22} />
-                      </i>
-                    ) : (
-                      <i className="h-5 w-5"></i>
-                    )}
-                    <span className="truncate text-sm">{title}</span>
-                  </div>
-                  <div className="flex items-center justify-end gap-2">
-                    <button
-                      onClick={handleOpenInNewTab}
-                      className="header-icon-btn"
-                    >
-                      <RxOpenInNewWindow size={20} />
-                    </button>
-                    <button
-                      className="header-icon-btn rotate-[270deg]"
-                      onClick={handleOpenInMainFrame}
-                    >
-                      <RxOpenInNewWindow size={20} />
-                    </button>
-                    <button className="header-icon-btn" onClick={handleClose}>
-                      <RxCross1 size={18} />
-                    </button>
-                  </div>
+    <AnimatePresence>
+      {open.value && url.value && (
+        <div className="fixed inset-0 z-[2147483647] overflow-y-auto">
+          <div className="flex h-full flex-col items-center justify-center py-12 px-20 md:px-32 lg:px-48">
+            <motion.div
+              className="shadow-xl"
+              ref={containerRef}
+              animate="open"
+              exit="closed"
+              variants={variants}
+              initial="closed"
+            >
+              <div className="grid h-10 grid-cols-6 items-center gap-4 rounded-t-xl bg-zinc-200 px-4 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100">
+                <div className="col-span-4 col-start-2 inline-flex items-center justify-center gap-2">
+                  {loading.value ? (
+                    <i className="h-5 w-5 shrink-0 animate-spin">
+                      <CgSpinnerAlt size={22} />
+                    </i>
+                  ) : (
+                    <i className="h-5 w-5"></i>
+                  )}
+                  <span className="truncate text-sm">{title}</span>
                 </div>
-                <iframe
-                  ref={iframeRef}
-                  src={url.value}
-                  onLoad={handleOnLoad}
-                  className="h-[calc(100%-40px)] w-full border-none bg-white"
-                />
-              </motion.div>
-            </div>
+                <div className="flex items-center justify-end gap-2">
+                  <CopyToClipboard
+                    text={copyUrl ?? ''}
+                    options={{ format: 'text/plain' }}
+                  >
+                    <button className="header-icon-btn" onClick={handleCopyUrl}>
+                      <RxLink2 size={20} />
+                    </button>
+                  </CopyToClipboard>
+                  <button
+                    onClick={handleOpenInNewTab}
+                    className="header-icon-btn"
+                  >
+                    <RxOpenInNewWindow size={20} />
+                  </button>
+                  <button
+                    className="header-icon-btn rotate-[270deg]"
+                    onClick={handleOpenInMainFrame}
+                  >
+                    <RxOpenInNewWindow size={20} />
+                  </button>
+                  <button className="header-icon-btn" onClick={handleClose}>
+                    <RxCross1 size={18} />
+                  </button>
+                </div>
+              </div>
+              <iframe
+                ref={iframeRef}
+                src={url.value}
+                onLoad={handleOnLoad}
+                className="h-[calc(100%-40px)] w-full border-none bg-white select-none"
+              />
+            </motion.div>
           </div>
-        )}
-      </AnimatePresence>
-    </>
+        </div>
+      )}
+      <Toaster />
+    </AnimatePresence>
   );
 }
