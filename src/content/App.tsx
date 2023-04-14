@@ -71,7 +71,6 @@ export default function App({ open, url, title, loading }: Props) {
       getOpenUrl(iframeRef.current?.contentDocument?.location.href) ??
       url.value;
     setCopyUrl(currentUrl);
-    toast('Link copied!', { icon: '👏' });
   }
 
   return (
@@ -101,6 +100,7 @@ export default function App({ open, url, title, loading }: Props) {
                 <div className="flex items-center justify-end gap-2">
                   <CopyToClipboard
                     text={copyUrl ?? ''}
+                    onCopy={() => toast('Link copied!', { icon: '👏' })}
                     options={{ format: 'text/plain' }}
                   >
                     <button className="header-icon-btn" onClick={handleCopyUrl}>
@@ -128,7 +128,7 @@ export default function App({ open, url, title, loading }: Props) {
                 ref={iframeRef}
                 src={url.value}
                 onLoad={handleOnLoad}
-                className="h-[calc(100%-40px)] w-full border-none bg-white select-none"
+                className="h-[calc(100%-40px)] w-full select-none border-none bg-white"
               />
             </motion.div>
           </div>
