@@ -1,12 +1,10 @@
 import { Signal } from '@preact/signals';
-import { RxCross1, RxLink2, RxOpenInNewWindow } from 'react-icons/rx';
+import { RxCross1, RxOpenInNewWindow } from 'react-icons/rx';
 import { CgSpinnerAlt } from 'react-icons/cg';
-import { useRef, useState } from 'preact/hooks';
+import { useRef } from 'preact/hooks';
 import useOnClickOutside from '../hooks/use-onclickoutside';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
-import toast from 'react-hot-toast/headless';
 import Toaster from '../components/Toaster';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 type Props = {
   open: Signal<boolean>;
@@ -65,14 +63,6 @@ export default function App({ open, url, title, loading }: Props) {
     openUrl && window.open(openUrl, '_blank');
   }
 
-  const [copyUrl, setCopyUrl] = useState(url.value);
-  function handleCopyUrl() {
-    const currentUrl =
-      getOpenUrl(iframeRef.current?.contentDocument?.location.href) ??
-      url.value;
-    setCopyUrl(currentUrl);
-  }
-
   return (
     <AnimatePresence>
       {open.value && url.value && (
@@ -98,15 +88,6 @@ export default function App({ open, url, title, loading }: Props) {
                   <span className="truncate text-sm">{title}</span>
                 </div>
                 <div className="flex items-center justify-end gap-2">
-                  <CopyToClipboard
-                    text={copyUrl ?? ''}
-                    onCopy={() => toast('Link copied!', { icon: '👏' })}
-                    options={{ format: 'text/plain' }}
-                  >
-                    <button className="header-icon-btn" onClick={handleCopyUrl}>
-                      <RxLink2 size={20} />
-                    </button>
-                  </CopyToClipboard>
                   <button
                     onClick={handleOpenInNewTab}
                     className="header-icon-btn"
