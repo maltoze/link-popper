@@ -1,7 +1,7 @@
 import { Signal } from '@preact/signals'
 import { RxCross1, RxOpenInNewWindow } from 'react-icons/rx'
 import { CgSpinnerAlt } from 'react-icons/cg'
-import { useRef } from 'preact/hooks'
+import { useCallback, useRef } from 'preact/hooks'
 import useOnClickOutside from '../hooks/use-onclickoutside'
 import { AnimatePresence, motion, Variants } from 'framer-motion'
 import Toaster from '../components/Toaster'
@@ -41,7 +41,9 @@ export default function App({ open, url, title, loading }: Props) {
     open.value = false
   }
 
-  useOnClickOutside(() => containerRef.current, handleClose)
+  const getContainer = useCallback(() => containerRef.current, [])
+
+  useOnClickOutside(getContainer, handleClose)
 
   function handleOnLoad() {
     loading.value = false
