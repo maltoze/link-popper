@@ -6,7 +6,6 @@ import { ISettings } from '../common/types'
 import cx from 'classnames'
 import '../styles/global.css'
 import { useHotkeys } from 'react-hotkeys-hook'
-import logo from '/logo.png'
 
 async function getCurrentUrl() {
   const [tab] = await browser.tabs.query({
@@ -97,7 +96,7 @@ export default function App() {
     <div className="w-64 pb-3.5 text-sm text-zinc-900">
       <div className="flex select-none justify-between border-b p-2.5">
         <div className="inline-flex gap-2 items-center">
-          <img src={logo} className="inline-block h-6 w-6" />
+          <img src="/logo.png" className="inline-block h-6 w-6" />
           <span>Link Popper</span>
         </div>
         <div className="flex items-center">
