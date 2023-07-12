@@ -5,6 +5,7 @@ import { useRef } from 'preact/hooks'
 import useOnClickOutside from '../hooks/use-onclickoutside'
 import { AnimatePresence, motion, Variants } from 'framer-motion'
 import Toaster from '../components/Toaster'
+import Draggable from 'react-draggable'
 
 type Props = {
   open: Signal<boolean>
@@ -14,11 +15,20 @@ type Props = {
 }
 
 const variants: Variants = {
-  open: { opacity: 1, height: '100%', width: '100%' },
+  open: {
+    opacity: 1,
+    height: '100%',
+    width: '100%',
+    x: 0,
+    y: 0,
+    transition: { duration: 0.1 },
+  },
   closed: {
     opacity: 0,
-    height: '75%',
-    width: '75%',
+    height: '50%',
+    width: '50%',
+    x: '25%',
+    y: '25%',
     transition: { duration: 0.1 },
   },
 }
@@ -31,7 +41,7 @@ export default function App({ open, url, title, loading }: Props) {
     open.value = false
   }
 
-  useOnClickOutside(containerRef, handleClose)
+  useOnClickOutside(() => containerRef.current, handleClose)
 
   function handleOnLoad() {
     loading.value = false
@@ -67,17 +77,20 @@ export default function App({ open, url, title, loading }: Props) {
     <>
       <AnimatePresence>
         {open.value && url.value && (
-          <div className="fixed inset-0 z-[2147483647] overflow-y-auto">
-            <div className="flex h-full flex-col items-center justify-center py-12 px-20 md:px-32 lg:px-48">
+          <Draggable handle="[data-drag-region]" cancel="button">
+            <div className="fixed z-[2147483647] flex top-10 bottom-10 right-20 left-20 lg:right-48 lg:left-48 xl:right-64 xl:left-64">
               <motion.div
-                className="shadow-xl"
+                className="shadow-xl "
                 ref={containerRef}
                 animate="open"
                 exit="closed"
                 variants={variants}
                 initial="closed"
               >
-                <div className="grid h-10 grid-cols-6 items-center gap-4 rounded-t-xl bg-zinc-200 px-4 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100">
+                <div
+                  data-drag-region
+                  className="grid h-10 grid-cols-6 items-center gap-4 rounded-t-xl bg-zinc-200 px-4 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100"
+                >
                   <div className="col-span-4 col-start-2 inline-flex items-center justify-center gap-2">
                     {loading.value ? (
                       <i className="h-5 w-5 shrink-0 animate-spin">
@@ -86,7 +99,9 @@ export default function App({ open, url, title, loading }: Props) {
                     ) : (
                       <i className="h-5 w-5"></i>
                     )}
-                    <span className="truncate text-sm">{title}</span>
+                    <span className="truncate text-sm select-none">
+                      {title}
+                    </span>
                   </div>
                   <div className="flex items-center justify-end gap-2">
                     <button
@@ -110,11 +125,11 @@ export default function App({ open, url, title, loading }: Props) {
                   ref={iframeRef}
                   src={url.value}
                   onLoad={handleOnLoad}
-                  className="h-[calc(100%-40px)] w-full select-none border-none bg-white"
+                  className="h-[calc(100%-40px)] w-full select-none border-none bg-zinc-50"
                 />
               </motion.div>
             </div>
-          </div>
+          </Draggable>
         )}
       </AnimatePresence>
 

@@ -19,6 +19,7 @@
     "preact": "^10.13.0",
     "react": "npm:@preact/compat",
     "react-dom": "npm:@preact/compat",
+    "react-draggable": "^4.4.5",
     "react-hot-toast": "^2.4.0",
     "react-hotkeys-hook": "^4.3.8",
     "react-icons": "^4.7.1"
