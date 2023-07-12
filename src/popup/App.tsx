@@ -6,6 +6,7 @@ import { ISettings } from '../common/types'
 import cx from 'classnames'
 import '../styles/global.css'
 import { useHotkeys } from 'react-hotkeys-hook'
+import logo from '../assets/logo.png'
 
 async function getCurrentUrl() {
   const [tab] = await browser.tabs.query({
@@ -93,13 +94,43 @@ export default function App() {
   }
 
   return (
-    <div className="flex w-64 flex-col gap-2 p-3">
-      <div className="flex flex-col gap-2">
-        <div className="break-words text-sm">
-          Current URL: <span>{currentUrl}</span>
+    <div className="w-64 pb-3.5 text-sm text-zinc-900">
+      <div className="flex select-none justify-between border-b p-2.5">
+        <div className="inline-flex gap-2 items-center">
+          <img src={logo} className="inline-block h-6 w-6" />
+          <span>Link Popper</span>
+        </div>
+        <div className="flex items-center">
+          <a
+            href="https://github.com/maltoze/link-popper/issues"
+            target="_blank"
+            rel="noreferrer"
+            className="text-slate-700 hover:text-slate-950"
+          >
+            Feedback
+          </a>
+        </div>
+      </div>
+      <div className="mt-3.5 flex flex-col gap-2.5 px-3.5">
+        <div className="flex flex-col gap-1.5">
+          <label>Enabled URLs: </label>
+          <div>
+            <textarea
+              ref={textareaRef}
+              className="h-48 max-h-80 w-full rounded-md border-gray-300 py-1 px-1.5 text-sm shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+              value={settings?.urlList.join('\n') ?? ''}
+              onChange={handleUrlsOnChange}
+            />
+            <div className="text-[10px] text-zinc-400">
+              Separate URLs using{' '}
+              <kbd className="kbd border-zinc-400">enter</kbd>
+            </div>
+          </div>
+        </div>
+        <div>
           <button
             className={cx(
-              'w-full rounded px-6 py-2 text-zinc-100 disabled:bg-zinc-400 disabled:cursor-not-allowed',
+              'w-full rounded px-6 py-2 text-zinc-100 disabled:cursor-not-allowed disabled:bg-zinc-400',
               {
                 'bg-red-600 hover:bg-red-700': matched,
                 'bg-blue-600 hover:bg-blue-700': !matched,
@@ -108,58 +139,8 @@ export default function App() {
             disabled={!currentUrl}
             onClick={handleToggleClick}
           >
-            {matched ? 'Disable' : 'Enable'}
+            {matched ? 'Disable' : 'Enable'} for current URL
           </button>
-        </div>
-
-        <div className="w-64 pb-3.5 text-sm text-zinc-900">
-          <div className="flex select-none justify-between border-b p-2.5">
-            <div className="inline-flex gap-2">
-              <img src='' className="inline-block h-6 w-6" />
-              <span>Link Popper</span>
-            </div>
-            <div>
-              <a
-                href="https://github.com/maltoze/link-popper/issues"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Feedback
-              </a>
-            </div>
-          </div>
-          <div className="mt-3.5 flex flex-col gap-2.5 px-3.5">
-            <div>
-              <button
-                className={cx(
-                  'w-full rounded px-6 py-2 text-zinc-100 disabled:cursor-not-allowed disabled:bg-zinc-400',
-                  {
-                    'bg-red-600 hover:bg-red-700': matched,
-                    'bg-blue-600 hover:bg-blue-700': !matched,
-                  }
-                )}
-                disabled={!currentUrl}
-                onClick={handleToggleClick}
-              >
-                {matched ? 'Disable' : 'Enable'} for current URL
-              </button>
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label>Enabled URLs: </label>
-              <div>
-                <textarea
-                  ref={textareaRef}
-                  className="h-48 max-h-80 w-full rounded-md border-gray-300 py-1 px-1.5 text-sm shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                  value={settings?.urlList.join('\n') ?? ''}
-                  onChange={handleUrlsOnChange}
-                />
-                <div className="mt-1 text-[10px] text-zinc-400">
-                  Separate URLs using{' '}
-                  <kbd className="kbd border-zinc-400">enter</kbd>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
