@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node build.mjs",
+    "build": "vite build && pnpm build:firefox",
+    "build:firefox": "EXTENSION=firefox vite build",
     "dev": "chokidar src -c 'pnpm build'",
     "lint": "eslint src/**/*.{ts,tsx} --cache"
   },
@@ -22,15 +23,13 @@
     "react-icons": "^4.7.1"
   },
   "devDependencies": {
-    "@deanc/esbuild-plugin-postcss": "^1.0.2",
+    "@preact/preset-vite": "^2.5.0",
+    "@samrum/vite-plugin-web-extension": "^5.0.0",
     "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/webextension-polyfill": "^0.10.0",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
-    "archiver": "^5.3.1",
     "autoprefixer": "^10.4.13",
-    "chokidar-cli": "^3.0.0",
-    "esbuild": "^0.17.10",
     "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",

@@ -6,4 +6,5 @@ change-version:
 	sed -i -e "s/\"version\": \".*\"/\"version\": \"$(VERSION)\"/" package.json
 
 build: change-version
-	node build.mjs
+	rm -rf ./dist
+	pnpm build
