@@ -83,7 +83,7 @@ jobs:
       - name: Package plugin and create userscript
         run: |
           mkdir release
-          mv build/chromium release/link-popper-chrome-extension-${{ steps.get_version.outputs.version-without-v }}
+          mv dist/chromium release/link-popper-chrome-extension-${{ steps.get_version.outputs.version-without-v }}
           cd release
           zip -r link-popper-chrome-extension-${{ steps.get_version.outputs.version-without-v }}.zip ./link-popper-chrome-extension-${{ steps.get_version.outputs.version-without-v }}/*
 
