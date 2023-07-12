@@ -6,7 +6,7 @@
   "scripts": {
     "build": "vite build && pnpm build:firefox",
     "build:firefox": "EXTENSION=firefox vite build",
-    "dev": "chokidar src -c 'pnpm build'",
+    "dev": "vite",
     "lint": "eslint src/**/*.{ts,tsx} --cache"
   },
   "keywords": [],
