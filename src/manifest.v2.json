@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "description": "A browser extension that lets you browse linked pages without leaving the current one.",
   "icons": {
-    "16": "src/assets/logo.png",
-    "32": "src/assets/logo.png",
-    "48": "src/assets/logo.png",
-    "128": "src/assets/logo.png"
+    "16": "logo.png",
+    "32": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
   },
   "content_scripts": [
     {

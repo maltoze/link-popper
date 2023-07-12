@@ -6,7 +6,7 @@ import { ISettings } from '../common/types'
 import cx from 'classnames'
 import '../styles/global.css'
 import { useHotkeys } from 'react-hotkeys-hook'
-import logo from '../assets/logo.png'
+import logo from '/logo.png'
 
 async function getCurrentUrl() {
   const [tab] = await browser.tabs.query({
