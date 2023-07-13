@@ -82,7 +82,7 @@ export default function App({ open, url, title, loading }: Props) {
           <Draggable handle="[data-drag-region]" cancel="button">
             <div className="fixed z-[2147483647] flex top-10 bottom-10 right-20 left-20 lg:right-48 lg:left-48 xl:right-64 xl:left-64">
               <motion.div
-                className="shadow-xl "
+                className="shadow-xl"
                 ref={containerRef}
                 animate="open"
                 exit="closed"
