@@ -36,5 +36,5 @@
 
 4. 在浏览器中加载未打包的扩展程序：
 
-   - Chrome：打开 `chrome://extensions/`，将开发者模式打开，点击 "加载已解压的扩展程序" 并选择项目的 `build/chromium` 文件夹
-   - Firefox：打开 `about:debugging#/runtime/this-firefox`，点击"临时载入附加组件"，选择项目的 `build/firefox/manifest.json` 文件 
+   - Chrome：打开 `chrome://extensions/`，将开发者模式打开，点击 "加载已解压的扩展程序" 并选择项目的 `dist/` 文件夹
+   - Firefox：打开 `about:debugging#/runtime/this-firefox`，点击"临时载入附加组件"，选择项目的 `dist/firefox/manifest.json` 文件 
