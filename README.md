@@ -1,11 +1,17 @@
 # Link Popper
+<p>
+  <a href="https://chrome.google.com/webstore/detail/link-popper/icejebfpfnhgpdlchhfjpdnddcdamoje" target="_blank">
+    <img alt="Chrome" src="https://img.shields.io/chrome-web-store/v/icejebfpfnhgpdlchhfjpdnddcdamoje?logo=google-chrome&link=https%3A%2F%2Fchrome.google.com%2Fwebstore%2Fdetail%2Flink-popper%2Ficejebfpfnhgpdlchhfjpdnddcdamoje" />
+  </a>
+  <a href="https://addons.mozilla.org/firefox/addon/link-popper/" target="_blank">
+    <img alt="Firefox" src="https://img.shields.io/amo/v/link-popper?logo=firefox&link=https%3A%2F%2Faddons.mozilla.org%2Ffirefox%2Faddon%2Flink-popper%2F" />
+  </a>
+</p>
+
 
 支持在当前窗口中打开链接而无需跳转到新页面的浏览器插件。
 
-## 安装
-
-- [Chrome](https://chrome.google.com/webstore/detail/link-popper/icejebfpfnhgpdlchhfjpdnddcdamoje)
-- [Firefox](https://addons.mozilla.org/zh-CN/firefox/addon/link-popper/)
+![image](https://github.com/maltoze/link-popper/assets/18044730/afe920e7-e3cd-4960-ac2a-21d187fcd65c)
 
 ## 开发
 
@@ -32,7 +38,3 @@
 
    - Chrome：打开 `chrome://extensions/`，将开发者模式打开，点击 "加载已解压的扩展程序" 并选择项目的 `build/chromium` 文件夹
    - Firefox：打开 `about:debugging#/runtime/this-firefox`，点击"临时载入附加组件"，选择项目的 `build/firefox/manifest.json` 文件 
-
-## Credits
-- [chatgpt-google-extension](https://github.com/wong2/chatgpt-google-extension)
-- [openai-translator](https://github.com/yetone/openai-translator)
