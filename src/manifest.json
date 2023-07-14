@@ -22,7 +22,7 @@
   "background": {
     "service_worker": "src/background/index.ts"
   },
-  "permissions": ["declarativeNetRequest", "storage"],
+  "permissions": ["declarativeNetRequest", "storage", "sidePanel", "tabs"],
   "host_permissions": ["<all_urls>"],
   "declarative_net_request": {
     "rule_resources": [
@@ -32,5 +32,8 @@
         "path": "rules.json"
       }
     ]
+  },
+  "side_panel": {
+    "default_path": "src/sidepanel/index.html"
   }
 }
