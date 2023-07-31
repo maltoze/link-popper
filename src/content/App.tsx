@@ -76,7 +76,7 @@ export default function App({ open, url, title, loading }: Props) {
   }
 
   return (
-    <>
+    <div className={open.value ? 'fixed inset-0 backdrop-blur-sm' : ''}>
       <AnimatePresence>
         {open.value && url.value && (
           <Draggable handle="[data-drag-region]" cancel="button">
@@ -136,6 +136,6 @@ export default function App({ open, url, title, loading }: Props) {
       </AnimatePresence>
 
       <Toaster />
-    </>
+    </div>
   )
 }
