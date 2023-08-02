@@ -11,7 +11,7 @@
 
 支持在当前窗口中打开链接而无需跳转到新页面的浏览器插件。
 
-![image](https://github.com/maltoze/link-popper/assets/18044730/afe920e7-e3cd-4960-ac2a-21d187fcd65c)
+![Frame 1](https://github.com/maltoze/link-popper/assets/18044730/43065d34-53e3-43db-a348-af93af990472)
 
 ## 开发
 
