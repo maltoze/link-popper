@@ -9,7 +9,7 @@
 </p>
 
 
-支持在当前窗口中打开链接而无需跳转到新页面的浏览器插件。
+支持在当前窗口中打开链接而无需跳转到新页面的浏览器插件, 类似 Arc 中的 Peek 功能
 
 ![Frame 1 (1)](https://github.com/maltoze/link-popper/assets/18044730/4da607e0-fe07-4028-a143-fa24c1cc2e7c)
 
