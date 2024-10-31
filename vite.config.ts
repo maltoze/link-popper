@@ -12,6 +12,7 @@ export default defineConfig({
     preact(),
     webExtension({
       manifest: isFirefox ? manifestV2 : manifest,
+      useDynamicUrlWebAccessibleResources: false,
     }),
   ],
   build: {
